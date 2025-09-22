@@ -289,37 +289,26 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ moods, story })
       });
-      if (!res.ok) throw new Error("AI error");
 
-      const data = await res.json(); // { inferredMoods, aiText }
-      const inferred = (data.inferredMoods || []).map(s => s.toLowerCase());
+      let data = {};
+      try { data = await res.json(); } catch (_) {}
 
-      // If the model is unsure, show its clarifying question and DO NOT render places/sounds yet.
-      const isUnclear = inferred.length === 1 && inferred[0] === "unclear";
-
-      if (isUnclear) {
-        return {
-          aiText: data.aiText || "I’m not sure I understood. Could you rephrase what you’re feeling?",
-          // Hold suggestions back to prompt a better input:
-          places: [],
-          sounds: [],
-          tips: []
-        };
+      if (!res.ok) {
+        console.error("API error:", res.status, data);
+        throw new Error(data?.detail || data?.error || `AI HTTP ${res.status}`);
       }
 
-      // Otherwise use AI-inferred feelings if user didn’t pick chips
+      const inferred = (data.inferredMoods || []).map(s => s.toLowerCase());
+      const isUnclear = inferred.length === 1 && inferred[0] === "unclear";
+      if (isUnclear) {
+        return { aiText: data.aiText || "I’m not sure I understood. Could you rephrase what you’re feeling?", places: [], sounds: [], tips: [] };
+      }
+
       const effectiveMoods = (moods && moods.length) ? moods : inferred;
-
-      // Reuse your existing scoring so UI stays consistent:
       const heuristic = analyzeLocally([...effectiveMoods], story);
-
-      return {
-        aiText: data.aiText || heuristic.aiText,
-        places: heuristic.places,
-        sounds: heuristic.sounds,
-        tips: heuristic.tips
-      };
+      return { aiText: data.aiText || heuristic.aiText, places: heuristic.places, sounds: heuristic.sounds, tips: heuristic.tips };
     }
+
 
     function analyzeLocally(moods, story) {
       // Extract keywords and normalize.
