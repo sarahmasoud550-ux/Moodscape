@@ -46,16 +46,18 @@
 
     /* ========= BASE ========= */
     *{box-sizing:border-box}
-    html,body{height:100%}
-    html{scroll-behavior:smooth}
+    html{height:100%; scroll-behavior:smooth;}
+    body{min-height:100vh;}
     body{
       margin:0;
+      min-height:100vh;
       font:16px/1.6 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color:var(--text);
       background:
         radial-gradient(900px 600px at 15% -10%, var(--bg-accent), transparent 60%),
         radial-gradient(900px 600px at 115% 110%, var(--bg-accent), transparent 60%),
         var(--bg);
+      background-attachment: fixed;
     }
     a{color:var(--primary); text-decoration: none}
     a:hover{text-decoration: underline}
@@ -292,7 +294,7 @@
             <div class="section-title">Small steps you can take</div>
             <div id="tips" class="tips"></div>
 
-            <p class="footnote" id="safetyNote" style="margin-top:6px"></p>
+            <p class="footnote" id="safetyNote"></p>
           </section>
 
           <p class="footnote"><strong>Disclaimer:</strong> Not medical advice. If you’re in crisis, call the numbers above.</p>
