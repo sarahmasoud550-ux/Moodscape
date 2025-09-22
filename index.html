@@ -252,7 +252,11 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
       storyEl.value = '';
       aiMsgEl.textContent = '';
       document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed','false'));
-      placesEl.innerHTML = soundsEl.innerHTML = tipsEl.innerHTML = '';
+      placesList.innerHTML = '';
+      soundsList.innerHTML = '';
+      tipsEl.innerHTML = '';
+      mapViewer.removeAttribute('src');
+      videoViewer.removeAttribute('src');
       safetyNote.textContent = '';
     });
 
@@ -264,66 +268,47 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
         return;
       }
       analyzeBtn.disabled = true; spinEl.style.display = 'inline-block';
-      const result = await analyzeLocally(chosen, story);
+      const result = await analyzeViaServer(chosen, story);
       spinEl.style.display = 'none'; analyzeBtn.disabled = false;
       renderResult(result);
     });
 
     // --- Demo AI (on-device heuristic) -------------------------------------
-    function analyzeLocally(moods, story) {
-      // Extract keywords and normalize.
-      const text = (story || '').toLowerCase();
-      const kw = {
-        sleep: /(sleep|insomnia|tired|fatigue)/.test(text),
-        study: /(exam|school|study|assignment|university|test)/.test(text),
-        work:  /(work|boss|job|deadline|burnout|burned\s*out)/.test(text),
-        social: /(lonely|alone|friends?|breakup|relationship)/.test(text),
-        anger: /(angry|mad|furious|irritated|frustrated)/.test(text),
-        anxiety: /(anxiety|anxious|panic|worry|worried|nervous)/.test(text),
-      };
+    async function analyzeViaServer(moods, story) {
+      const res = await fetch("/api/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ moods, story })
+      });
+      if (!res.ok) throw new Error("AI error");
 
-      // Expand moods from text if none selected.
-      if (!moods.length) {
-        if (kw.anxiety) moods.push('anxious');
-        if (kw.anger) moods.push('angry');
-        if (kw.social) moods.push('lonely');
-        if (kw.sleep) moods.push('tired');
-        if (!moods.length) moods = ['stressed'];
+      const data = await res.json(); // { inferredMoods, aiText }
+      const inferred = (data.inferredMoods || []).map(s => s.toLowerCase());
+
+      // If the model is unsure, show its clarifying question and DO NOT render places/sounds yet.
+      const isUnclear = inferred.length === 1 && inferred[0] === "unclear";
+
+      if (isUnclear) {
+        return {
+          aiText: data.aiText || "I’m not sure I understood. Could you rephrase what you’re feeling?",
+          // Hold suggestions back to prompt a better input:
+          places: [],
+          sounds: [],
+          tips: []
+        };
       }
 
-      // Score places by how many mood tags they match.
-      const placeScores = UAE_PLACES.map(p => ({
-        place: p,
-        score: p.moods.reduce((s,m)=> s + (moods.includes(m)?1:0), 0)
-      })).sort((a,b)=> b.score - a.score || a.place.name.localeCompare(b.place.name));
-      const topPlaces = placeScores.filter(x=>x.score>0).slice(0,6).map(x=>x.place);
-      const fallbackPlaces = UAE_PLACES.slice(0,6);
+      // Otherwise use AI-inferred feelings if user didn’t pick chips
+      const effectiveMoods = (moods && moods.length) ? moods : inferred;
 
-      // Pick sounds that align with moods.
-      const topSounds = SOUND_THEMES.filter(s => s.moods.some(m => moods.includes(m))).slice(0,6);
-
-      // Tips — choose a few and add a targeted one.
-      const tips = [...GENERIC_TIPS];
-      if (kw.sleep) tips.unshift({ text: 'Aim for a gentle wind-down routine 60–90 minutes before bed (dim lights, no heavy screens, stretch).' });
-      if (kw.study) tips.unshift({ text: 'Try a 25‑minute focus block near daylight, followed by a 5‑minute walk break.' });
-      if (kw.work) tips.unshift({ text: 'Block a 15‑minute “reset” break between meetings to breathe and step outside if possible.' });
-      if (kw.social) tips.unshift({ text: 'Message one person today and ask to meet for a short walk or coffee.' });
-      if (kw.anger) tips.unshift({ text: 'Do 3 rounds of brisk walking or light stairs to discharge tension before conversations.' });
-
-      // Compose a gentle AI paragraph.
-      const moodLine = moods.length
-        ? `I’m hearing themes like ${moods.map(m=>`<strong>${m}</strong>`).join(', ')}.`
-        : 'Thanks for sharing — I’ll keep suggestions gentle and flexible.';
-
-      const note = `This isn’t therapy. If you feel unsafe or in crisis, please call <strong>999</strong> (police) or <strong>998</strong> (ambulance). For mental support you can call <strong>800‑HOPE (8004673)</strong> daily 8am–8pm, Abu Dhabi’s <strong>Estijaba 8001717</strong> (psychological support option), or <strong>DFWAC 800111</strong> for women & children.`;
-
-      const aiText = `${moodLine} Based on that, here are calm places, sounds, and small steps that often help in the UAE. ${note}`;
+      // Reuse your existing scoring so UI stays consistent:
+      const heuristic = analyzeLocally([...effectiveMoods], story);
 
       return {
-        aiText,
-        places: topPlaces.length ? topPlaces : fallbackPlaces,
-        sounds: topSounds.length ? topSounds : SOUND_THEMES.slice(0,4),
-        tips: tips.slice(0,6)
+        aiText: data.aiText || heuristic.aiText,
+        places: heuristic.places,
+        sounds: heuristic.sounds,
+        tips: heuristic.tips
       };
     }
 
@@ -331,6 +316,26 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
     function renderResult({ aiText, places, sounds, tips }) {
       aiMsgEl.innerHTML = aiText;
 
+      // If unclear: invite the user to clarify and skip the lists
+      if ((!places || places.length === 0) && (!sounds || sounds.length === 0) && (!tips || tips.length === 0)) {
+        placesList.innerHTML = '';
+        soundsList.innerHTML = '';
+        tipsEl.innerHTML = '';
+        mapViewer.removeAttribute('src');
+        videoViewer.removeAttribute('src');
+
+        const hint = document.createElement('div');
+        hint.className = 'help';
+        hint.style.marginTop = '8px';
+        hint.textContent = 'Please add a bit more detail (e.g., is it sleep, studies, relationships, or work?).';
+        aiMsgEl.appendChild(hint);
+
+        // put the cursor back so they can type again
+        storyEl.focus();
+        return;
+      }
+
+      // (existing rendering for normal case)
       // PLACES: list (left) + viewer (right)
       placesList.innerHTML = '';
       mapViewer.removeAttribute('src');
@@ -351,11 +356,10 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
         });
         placesList.appendChild(item);
       });
-      // default select first
       const firstPlace = placesList.querySelector('.item');
       if (firstPlace) { firstPlace.click(); } else if (firstPlaceURL) { mapViewer.src = firstPlaceURL; }
 
-      // SOUNDS: list (left) + viewer (right)
+      // SOUNDS
       soundsList.innerHTML = '';
       videoViewer.removeAttribute('src');
       let firstVideoURL = '';
@@ -387,9 +391,9 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
         tipsEl.appendChild(el);
       }
 
-      // Safety footnote
       safetyNote.innerHTML = `Remember: this tool can’t diagnose or treat. If symptoms persist, consider speaking with a licensed professional in the UAE (e.g., via your emirate’s health services).`;
     }
+
 
     // --- (Optional) Server-side AI hook ------------------------------------ ------------------------------------
     // If you later add a server endpoint, you can swap analyzeLocally with a fetch:

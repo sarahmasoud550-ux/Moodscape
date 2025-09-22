@@ -19,22 +19,23 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [
-          {
+        {
             role: "system",
             content:
-`You classify emotions from free text and write one short, supportive message.
-Valid categories (comma-separated): sad, anxious, stressed, overwhelmed, angry, frustrated, lonely, burned out, tired, worried.
-If uncertain, return "unclear" as the only category.`
-          },
-          {
+        `You classify emotions from free text and write one short, supportive message.
+        Valid categories (comma-separated): sad, anxious, stressed, overwhelmed, angry, frustrated, lonely, burned out, tired, worried.
+        If you cannot confidently map the input, return "unclear" as the ONLY category on the first line, and on the second line ask ONE specific clarifying question (e.g., "Could you share what's been weighing on you most — sleep, studies, or relationships?").`
+        },
+        {
             role: "user",
             content:
-`User feelings picked: ${moods.join(", ") || "(none)"}.
-User text: """${story}""".
+        `User feelings picked: ${moods.join(", ") || "(none)"}.
+        User text: """${story}""".
 
-1) First line: categories only (comma-separated, lower-case, no extra words).
-2) Second line: a brief, kind response (1–2 sentences).`
-          }
+        Output format:
+        1) First line: categories only (comma-separated, lower-case). Use EXACTLY "unclear" if you aren't sure.
+        2) Second line: a brief, kind response (1–2 sentences). If first line is "unclear", include ONE clarifying question.`
+        }
         ],
         temperature: 0.2
       })
