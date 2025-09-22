@@ -75,10 +75,13 @@
       box-shadow:var(--shadow);
       padding:22px;
       animation: fadeIn .35s ease both;
-      margin: 18px;
+      margin: 24px;
     }
     .card h1,.card h2{margin:.2rem 0 .6rem;text-align:center}
     .help,.footnote{color:var(--muted);text-align:center}
+    .footnote{
+      margin: 30px;
+    }
 
     .notice{
       width:min(760px,100%);
@@ -157,7 +160,7 @@
     .fade-area{animation: fadeIn .35s ease both}
 
     /* ========= RESULTS ========= */
-    .section-title{font-weight:800;font-size:16px;margin:16px 0 8px;text-align:center}
+    .section-title{font-weight:800;font-size:16px;margin:30px 0 24px;text-align:center}
     .split{
       width:min(980px,100%);
       display:grid; gap:14px; align-items:start; justify-items:center;
@@ -242,7 +245,7 @@
           <label class="sr-only" for="story">Describe what you’d like help with</label>
           <textarea id="story" class="textarea" placeholder="e.g., I’ve been feeling anxious about exams and not sleeping well..."></textarea>
 
-          <div class="row" style="margin-top:12px">
+          <div class="row" style="margin-top:20px">
             <button id="analyzeBtn" class="btn">
               Analyze &amp; Suggest
               <span id="spin" class="spinner" style="display:none"></span>
@@ -488,7 +491,7 @@
       places.forEach((p,idx)=>{
         const item=document.createElement('button');
         item.className='item'; item.setAttribute('role','option'); item.setAttribute('aria-selected','false');
-        item.innerHTML = `<div style="color: white; weight: bold;"><strong>${p.name}</strong></div><div class="meta">${p.emirate} • ${p.kind}</div>`;
+        item.innerHTML = `<div style="color: whitesmoke; weight: bold;"><strong>${p.name}</strong></div><div class="meta">${p.emirate} • ${p.kind}</div>`;
         const q=(p.maps || p.name).replace(/\+/g,' ');
         const url=`https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
         if(idx===0) firstPlaceURL=url;
@@ -507,7 +510,7 @@
       sounds.forEach((s,idx)=>{
         const item=document.createElement('button');
         item.className='item'; item.setAttribute('role','option'); item.setAttribute('aria-selected','false');
-        item.innerHTML = `<div><strong>${s.label}</strong></div><div class="meta">First YouTube result</div>`;
+        item.innerHTML = `<div style="color: whitesmoke; weight: bold;"><strong>${s.label}</strong></div><div class="meta">First YouTube result</div>`;
         const q=s.query.replace(/\+/g,' ');
         const url=`https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(q)}&rel=0&modestbranding=1`;
         if(idx===0) firstVideoURL=url;
