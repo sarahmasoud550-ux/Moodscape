@@ -5,192 +5,172 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UAE Moodscape — Gentle Support (Not a Therapist)</title>
   <style>
-    :root {
-      --bg: #0b0d10;
-      --panel: #12161b;
-      --muted: #8aa0b3;
-      --text: #e7eef5;
-      --brand: #4cc9f0;
-      --brand-2: #80ed99;
-      --danger: #ff6b6b;
-      --warning: #ffd166;
-      --ok: #2ec4b6;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 16px;
+    :root{
+      --bg:#0b0d10; --panel:#12161b; --muted:#8aa0b3; --text:#e7eef5;
+      --brand:#4cc9f0; --brand-2:#80ed99; --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:16px; --border:rgba(255,255,255,.10); --border-2:rgba(255,255,255,.14);
     }
-    * { box-sizing: border-box }
-    html,body { height: 100% }
-    body {
-      margin: 0; font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, Noto Sans, "Apple Color Emoji", "Segoe UI Emoji";
-      color: var(--text); background: radial-gradient(1200px 800px at 80% -10%, rgba(76,201,240,.08), transparent 50%) , radial-gradient(900px 600px at -10% 120%, rgba(128,237,153,.08), transparent 50%), var(--bg);
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1100px 700px at 75% -10%, rgba(76,201,240,.08), transparent 55%),
+        radial-gradient(900px 600px at -10% 115%, rgba(128,237,153,.08), transparent 55%),
+        var(--bg);
     }
-    a { color: var(--brand) }
+    a{color:var(--brand)}
+    .wrap{max-width:980px;margin:0 auto;padding:24px}
+    header{display:flex;justify-content:space-between;align-items:flex-end;margin:8px 0 18px}
+    .brand{font-weight:750;font-size:26px;letter-spacing:.2px}
+    .sub{color:var(--muted);font-size:14px}
 
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px }
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    .card h2{margin:0 0 10px;font-size:18px}
+    .help{color:var(--muted);font-size:14px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
-    .notice {
-      background: linear-gradient(135deg, rgba(255,107,107,.12), rgba(255,209,102,.1));
-      border: 1px solid rgba(255,255,255,.08);
-      padding: 18px 16px; border-radius: var(--radius); box-shadow: var(--shadow);
-      display: grid; gap: 10px; align-items: start; margin-bottom: 22px;
+    .btn{
+      appearance:none;border:none;cursor:pointer;border-radius:12px;padding:12px 16px;font-weight:700;
+      background:linear-gradient(180deg,var(--brand),#2aa3ca);color:#031018;box-shadow:var(--shadow);
+      transition:transform .06s ease,box-shadow .12s ease
     }
-    .notice h1 { font-size: 18px; margin: 0; letter-spacing: .2px }
-    .notice p { margin: 0 }
-    .phones { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 8px }
-@media (min-width: 720px) { .phones { grid-template-columns: repeat(2, minmax(260px, 1fr)); } }
-@media (min-width: 1100px) { .phones { grid-template-columns: repeat(3, minmax(260px, 1fr)); } }
-    .pill { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); padding: 12px 14px; border-radius: 999px; display: grid; gap: 4px; align-items: start; width: 100% }
-    .pill strong { display: block; white-space: normal }
+    .btn:active{transform:translateY(1px);box-shadow:0 4px 16px rgba(0,0,0,.25)}
+    .btn.secondary{background:linear-gradient(180deg,#344a5f,#263546);color:var(--text)}
 
-    header {
-      display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: end; margin: 10px 0 24px
+    .textarea{
+      width:100%;min-height:160px;padding:12px;color:var(--text);
+      background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;resize:vertical
     }
-    .brand { font-weight: 700; font-size: 28px; letter-spacing: .2px }
-    .brand small { font-weight: 500; color: var(--muted); font-size: 14px }
-    .btn {
-      appearance: none; border: none; cursor: pointer; border-radius: 12px; padding: 12px 16px; font-weight: 600; box-shadow: var(--shadow);
-      background: linear-gradient(180deg, var(--brand), #2aa3ca); color: #051018; transition: transform .06s ease, box-shadow .12s ease;
+    .notice{
+      background:linear-gradient(135deg, rgba(255,107,107,.12), rgba(255,209,102,.1));
+      border:1px solid rgba(255,255,255,.08); padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);
+      display:grid;gap:10px;align-items:start;margin-bottom:16px
     }
-    .btn:active { transform: translateY(1px); box-shadow: 0 4px 16px rgba(0,0,0,.25) }
-    .btn.secondary { background: linear-gradient(180deg, #344a5f, #263546); color: var(--text) }
+    .phones{display:grid;grid-template-columns:1fr;gap:10px}
+    @media (min-width:720px){.phones{grid-template-columns:repeat(2,minmax(260px,1fr))}}
+    @media (min-width:1040px){.phones{grid-template-columns:repeat(3,minmax(240px,1fr))}}
+    .pill{background:rgba(255,255,255,.06);border:1px solid var(--border-2);padding:10px 12px;border-radius:999px;display:grid;gap:4px;width:100%}
+    .pill strong{display:block}
 
-    .grid { display: grid; grid-template-columns: 1fr; gap: 18px }
-    @media (min-width: 920px) {
-      .grid { grid-template-columns: 380px 1fr }
-    }
+    /* Screen switcher */
+    .screen{display:none}
+    .screen.active{display:block}
 
-    .card { background: var(--panel); border: 1px solid rgba(255,255,255,.08); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px }
-    .card h2 { margin: 0 0 12px; font-size: 18px }
-    .help { color: var(--muted); font-size: 14px; margin-top: 6px }
-
-    .chips { display: flex; gap: 10px; flex-wrap: wrap }
-    .chip { border: 1px solid rgba(255,255,255,.25); background: rgba(255,255,255,.10); padding: 10px 14px; border-radius: 999px; cursor: pointer; user-select: none; color: var(--text); font-weight: 600 }
-    .chip[aria-pressed="true"] { background: rgba(76,201,240,.28); border-color: rgba(76,201,240,.8); box-shadow: inset 0 0 0 2px rgba(76,201,240,.35) }
-.chip:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px }
-
-    .textarea { width: 100%; min-height: 160px; padding: 12px; color: var(--text); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); border-radius: 12px; resize: vertical }
-    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap }
-
-    .result { display: grid; gap: 16px }
-    .section-title { font-weight: 700; font-size: 16px; margin: 10px 0 4px }
-
-    .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 12px }
-
-/* Split list + viewer layout */
-.split { display: grid; gap: 12px }
-@media (min-width: 900px) { .split { grid-template-columns: 320px 1fr } }
-.list { display: flex; flex-direction: column; gap: 8px; max-height: 420px; overflow: auto }
-.item { border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); padding: 10px 12px; border-radius: 12px; cursor: pointer }
-.item:hover { background: rgba(255,255,255,.07) }
-.item[aria-selected="true"] { background: rgba(76,201,240,.20); border-color: rgba(76,201,240,.6) }
-.viewer { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 8px }
-    .place, .sound, .tip {
-      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 12px; display: grid; gap: 8px
-    }
-    .meta { color: var(--muted); font-size: 13px }
-
-/* Embedded media */
-.embed { width: 100%; border: 0; border-radius: 12px; box-shadow: var(--shadow) }
-.embed.map { aspect-ratio: 4 / 3; min-height: 240px }
-.embed.video { aspect-ratio: 16 / 9 }
-
-details { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 10px 12px }
-details > summary { cursor: pointer; list-style: none; font-weight: 600; color: var(--brand); margin: -10px -12px 8px; padding: 10px 12px }
-details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 10px }
-
-    .spinner { width: 18px; height: 18px; border: 3px solid rgba(255,255,255,.25); border-top-color: var(--brand); border-radius: 50%; display: inline-block; animation: spin .9s linear infinite }
-    @keyframes spin { to { transform: rotate(360deg) } }
-
-    .footnote { font-size: 13px; color: var(--muted) }
-    .sr-only { position: absolute !important; clip: rect(1px,1px,1px,1px); padding:0;border:0;height:1px;width:1px;overflow:hidden;white-space:nowrap }
+    /* Results layout */
+    .result{display:grid;gap:16px}
+    .section-title{font-weight:750;font-size:16px;margin:10px 0 4px}
+    .split{display:grid;gap:12px}
+    @media (min-width:900px){.split{grid-template-columns:320px 1fr}}
+    .list{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow:auto}
+    .item{border:1px solid var(--border-2);background:rgba(255,255,255,.04);padding:10px 12px;border-radius:12px;cursor:pointer;text-align:left}
+    .item:hover{background:rgba(255,255,255,.07)}
+    .item[aria-selected="true"]{background:rgba(76,201,240,.20);border-color:rgba(76,201,240,.6)}
+    .viewer{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:8px}
+    .embed{width:100%;border:0;border-radius:12px;box-shadow:var(--shadow)}
+    .embed.map{aspect-ratio:4/3;min-height:240px}
+    .embed.video{aspect-ratio:16/9}
+    .tip{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:12px}
+    .meta{color:var(--muted);font-size:13px}
+    .footnote{font-size:13px;color:var(--muted)}
+    .spinner{width:18px;height:18px;border:3px solid rgba(255,255,255,.25);border-top-color:var(--brand);border-radius:50%;display:inline-block;animation:spin .9s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .sr-only{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <!-- Disclaimer / Safety banner -->
-    <div class="notice" role="note" aria-label="Safety notice">
-      <h1>Gentle reminder: This site is <em>not</em> a therapist or a crisis service.</h1>
-      <p>If you feel unsafe or might hurt yourself or someone else, or if someone is in immediate danger, please contact emergency services <strong>right now</strong>.</p>
-      <div class="phones" aria-label="UAE hotlines">
-        <div class="pill"><strong>Police</strong> <span>999</span></div>
-        <div class="pill"><strong>Ambulance</strong> <span>998</span></div>
-        <div class="pill"><strong>Mental Support Line</strong> <span>800‑HOPE (8004673), daily 8am–8pm</span></div>
-        <div class="pill"><strong>Abu Dhabi “Estijaba”</strong> <span>8001717 (psychological support option)</span></div>
-        <div class="pill"><strong>DFWAC (Women & Children)</strong> <span>800111 (24/7)</span></div>
-      </div>
-      <p class="help">Numbers above are for UAE residents. This site offers educational suggestions only and cannot provide diagnosis or treatment.</p>
-    </div>
-
     <header>
       <div>
-        <div class="brand">UAE Moodscape <small>— calm, places, and sounds</small></div>
-        <div class="help">Choose how you want to start. You can select feelings, write to the AI agent, or do both.</div>
+        <div class="brand">UAE Moodscape</div>
+        <div class="sub">gentle suggestions — not a substitute for therapy</div>
       </div>
     </header>
 
-    <div class="grid">
-      <section class="card" aria-labelledby="feelings-title">
-        <h2 id="feelings-title">1) Pick what you’re feeling (optional)</h2>
-        <div class="chips" id="chips"></div>
-        <p class="help">Tap to toggle. You can choose more than one.</p>
-      </section>
+    <!-- =========================
+         Screen 1: Welcome / Input
+    ========================== -->
+    <section id="screenHome" class="screen active" aria-label="Welcome screen">
+      <div class="notice" role="note" aria-label="Safety notice">
+        <h1 style="font-size:18px;margin:0">Gentle reminder: This site is <em>not</em> a therapist or a crisis service.</h1>
+        <p style="margin:0">If you feel unsafe or might hurt yourself or someone else, contact emergency services <strong>right now</strong>.</p>
+        <div class="phones" aria-label="UAE hotlines">
+          <div class="pill"><strong>Police</strong><span>999</span></div>
+          <div class="pill"><strong>Ambulance</strong><span>998</span></div>
+          <div class="pill"><strong>Mental Support Line</strong><span>800-HOPE (8004673), daily 8am–8pm</span></div>
+          <div class="pill"><strong>Abu Dhabi “Estijaba”</strong><span>8001717 (psychological support option)</span></div>
+          <div class="pill"><strong>DFWAC (Women & Children)</strong><span>800111 (24/7)</span></div>
+        </div>
+        <p class="help">Numbers above are for UAE residents. This site offers educational suggestions only and cannot provide diagnosis or treatment.</p>
+      </div>
 
       <section class="card" aria-labelledby="agent-title">
-        <h2 id="agent-title">2) Tell the AI agent about your situation (optional)</h2>
-        <label class="sr-only" for="story">Describe what’s going on</label>
+        <h2 id="agent-title">Tell the AI agent what’s going on</h2>
+        <label class="sr-only" for="story">Describe what you’d like help with</label>
         <textarea id="story" class="textarea" placeholder="e.g., I’ve been feeling anxious about exams and not sleeping well lately..."></textarea>
-        <div class="row" style="margin-top:8px">
-          <label><input type="checkbox" id="includeSelfCare" checked /> Include self‑care suggestions</label>
+
+        <!-- Actions: primary button directly under the textbox -->
+        <div class="row" style="margin-top:10px">
+          <button id="analyzeBtn" class="btn">
+            <span class="lbl">Analyze &amp; Suggest</span>
+            <span id="spin" class="spinner" style="display:none"></span>
+          </button>
         </div>
-        <p class="help">Privacy: Your text is processed in your browser in demo mode (no data leaves your device). Embedded Google Maps and YouTube players load from those services.</p>
+        <p class="help" id="homeHint">Press Enter to analyze. Shift+Enter makes a new line.</p>
+        <div id="homeError" class="help" style="color:#ffd166;display:none"></div>
       </section>
-    </div>
 
-    <!-- Actions under feelings + text -->
-    <div class="row actions" style="margin: 8px 0 18px">
-      <button id="analyzeBtn" class="btn">
-        <span class="lbl">Analyze & Suggest</span>
-        <span id="spin" class="spinner" style="display:none"></span>
-      </button>
-      <button id="resetBtn" class="btn secondary">Reset</button>
-    </div>
-
-    <section id="results" class="card" aria-live="polite" aria-busy="false">
-      <h2 id="resultTitle">Suggestions</h2>
-      <div id="aiMessage" class="help"></div>
-
-      <div class="section-title">Places you could visit</div>
-      <div id="placesSplit" class="split">
-        <div id="placesList" class="list" role="listbox" aria-label="Places"></div>
-        <div class="viewer">
-          <iframe id="mapViewer" class="embed map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map viewer"></iframe>
-        </div>
-      </div>
-
-      <div class="section-title">Nature sounds to try</div>
-      <div id="soundsSplit" class="split">
-        <div id="soundsList" class="list" role="listbox" aria-label="Sounds"></div>
-        <div class="viewer">
-          <iframe id="videoViewer" class="embed video" loading="lazy" title="Video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-      </div>
-
-      <div class="section-title">Small steps you can take</div>
-      <div id="tips" class="cards"></div>
-
-      <p class="footnote" id="safetyNote"></p>
+      <p class="footnote" style="margin-top:14px">
+        Privacy: In this demo, your text is sent only to the AI endpoint you deploy and the embedded map/video frames load from Google/YouTube.
+      </p>
     </section>
 
-    <p class="footnote">Made with care for UAE residents. <strong>Disclaimer:</strong> This site is not medical advice. If you’re in crisis, use the numbers at the top.</p>
+    <!-- =========================
+         Screen 2: Results
+    ========================== -->
+    <section id="screenResults" class="screen" aria-label="Results screen">
+      <div class="row" style="margin-bottom:12px">
+        <button id="backBtn" class="btn secondary">← Back</button>
+      </div>
+
+      <section id="results" class="card" aria-live="polite" aria-busy="false">
+        <h2 id="resultTitle" style="margin-bottom:6px">Suggestions</h2>
+        <div id="aiMessage" class="help" style="font-size:15px"></div>
+
+        <div class="section-title">Places you could visit</div>
+        <div id="placesSplit" class="split">
+          <div id="placesList" class="list" role="listbox" aria-label="Places"></div>
+          <div class="viewer">
+            <iframe id="mapViewer" class="embed map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map viewer"></iframe>
+          </div>
+        </div>
+
+        <div class="section-title">Nature sounds to try</div>
+        <div id="soundsSplit" class="split">
+          <div id="soundsList" class="list" role="listbox" aria-label="Sounds"></div>
+          <div class="viewer">
+            <iframe id="videoViewer" class="embed video" loading="lazy" title="Video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="section-title">Small steps you can take</div>
+        <div id="tips" class="result"></div>
+
+        <p class="footnote" id="safetyNote" style="margin-top:6px"></p>
+      </section>
+
+      <p class="footnote" style="margin-top:14px">
+        Made with care for UAE residents. <strong>Disclaimer:</strong> This site is not medical advice. If you’re in crisis, use the numbers at the top.
+      </p>
+    </section>
   </div>
 
   <script>
-    // --- Data ---------------------------------------------------------------
-    const FEELINGS = [
-      'sad', 'anxious', 'stressed', 'overwhelmed', 'angry', 'frustrated', 'lonely', 'burned out', 'tired', 'worried'
-    ];
-
-    // Curated UAE locations (sample, non-exhaustive). Each entry can include a mood-fit array.
+    // ===================
+    // Data (unchanged)
+    // ===================
     const UAE_PLACES = [
       { name: 'Jubail Mangrove Park', emirate: 'Abu Dhabi', kind: 'nature • boardwalk', moods: ['anxious','stressed','sad','overwhelmed'], maps: 'Jubail+Mangrove+Park' },
       { name: 'Saadiyat Public Beach', emirate: 'Abu Dhabi', kind: 'beach • calm water', moods: ['sad','anxious','tired','overwhelmed'], maps: 'Saadiyat+Public+Beach' },
@@ -206,7 +186,6 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
       { name: 'Sharjah Art Museum', emirate: 'Sharjah', kind: 'museum • quiet rooms', moods: ['overwhelmed','anxious','stressed'], maps: 'Sharjah+Art+Museum' }
     ];
 
-    // Nature sound themes. Link opens a YouTube search to avoid copyright & broken embeds.
     const SOUND_THEMES = [
       { label: 'Ocean waves', moods: ['sad','anxious','tired','overwhelmed'], query: 'ocean+waves+10+hours' },
       { label: 'Light rain', moods: ['sad','anxious','stressed','tired'], query: 'rain+sounds+10+hours' },
@@ -217,115 +196,124 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
     ];
 
     const GENERIC_TIPS = [
-      { text: 'Box breathing 4‑4‑4‑4 (inhale, hold, exhale, hold) for 3 minutes.' },
+      { text: 'Box breathing 4-4-4-4 (inhale, hold, exhale, hold) for 3 minutes.' },
       { text: 'Step outside for 10 minutes of daylight or a short walk.' },
       { text: 'Drink water and have a small snack if you haven’t eaten recently.' },
       { text: 'Text or call someone you trust and tell them how you’re feeling.' },
       { text: 'Write down one worry and one small action you can take today.' }
     ];
 
-    // --- UI Boot ------------------------------------------------------------
-    const chipsEl = document.getElementById('chips');
-    FEELINGS.forEach(f => {
-      const b = document.createElement('button');
-      b.className = 'chip';
-      b.type = 'button';
-      b.role = 'button';
-      b.setAttribute('aria-pressed', 'false');
-      b.dataset.value = f;
-      b.textContent = f.charAt(0).toUpperCase() + f.slice(1);
-      b.addEventListener('click', () => {
-        const on = b.getAttribute('aria-pressed') === 'true';
-        b.setAttribute('aria-pressed', String(!on));
-      });
-      chipsEl.appendChild(b);
-    });
+    // ===================
+    // Elements
+    // ===================
+    const screenHome   = document.getElementById('screenHome');
+    const screenResults= document.getElementById('screenResults');
+    const analyzeBtn   = document.getElementById('analyzeBtn');
+    const backBtn      = document.getElementById('backBtn');
+    const storyEl      = document.getElementById('story');
+    const spinEl       = document.getElementById('spin');
+    const homeError    = document.getElementById('homeError');
 
-    const analyzeBtn = document.getElementById('analyzeBtn');
-    const resetBtn   = document.getElementById('resetBtn');
-    const storyEl    = document.getElementById('story');
     const aiMsgEl    = document.getElementById('aiMessage');
     const placesList = document.getElementById('placesList');
     const mapViewer  = document.getElementById('mapViewer');
     const soundsList = document.getElementById('soundsList');
     const videoViewer= document.getElementById('videoViewer');
     const tipsEl     = document.getElementById('tips');
-    const spinEl     = document.getElementById('spin');
     const safetyNote = document.getElementById('safetyNote');
+    const titleEl    = document.getElementById('resultTitle');
 
-    // Press Enter to analyze; Shift+Enter still makes a newline
-    storyEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        analyzeBtn.click();
+    // Submit on Enter (Shift+Enter = newline)
+    storyEl.addEventListener('keydown',(e)=>{
+      if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); analyzeBtn.click(); }
+    });
+
+    backBtn.addEventListener('click', ()=>{
+      switchScreen('home');
+      // Keep the user’s text; clear transient errors
+      homeError.style.display='none';
+      homeError.textContent='';
+      storyEl.focus();
+    });
+
+    function switchScreen(which){
+      if(which==='results'){
+        screenHome.classList.remove('active');
+        screenResults.classList.add('active');
+      }else{
+        screenResults.classList.remove('active');
+        screenHome.classList.add('active');
       }
-    });
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
 
-
-    resetBtn.addEventListener('click', () => {
-      storyEl.value = '';
-      aiMsgEl.textContent = '';
-      document.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed','false'));
-      placesList.innerHTML = '';
-      soundsList.innerHTML = '';
-      tipsEl.innerHTML = '';
-      mapViewer.removeAttribute('src');
-      videoViewer.removeAttribute('src');
-      safetyNote.textContent = '';
-    });
-
-    analyzeBtn.addEventListener('click', async () => {
-      const chosen = Array.from(document.querySelectorAll('.chip[aria-pressed="true"]')).map(c => c.dataset.value);
+    // =============
+    // Analyze flow
+    // =============
+    analyzeBtn.addEventListener('click', async ()=>{
       const story = (storyEl.value || '').trim();
-      if (!chosen.length && !story) {
-        aiMsgEl.textContent = 'Please select at least one feeling or share a few lines with the AI agent.';
+      homeError.style.display='none';
+      homeError.textContent='';
+
+      if(!story){
+        homeError.textContent = 'Please write a few lines so I can tailor suggestions.';
+        homeError.style.display='block';
+        storyEl.focus();
         return;
       }
       analyzeBtn.disabled = true;
       spinEl.style.display = 'inline-block';
 
-      try {
-        const result = await analyzeViaServer(chosen, story);
+      try{
+        const result = await analyzeViaServer([], story);
+        // If the model said "unclear", keep the user on the first screen and show the question
+        const noLists = (!result.places?.length && !result.sounds?.length && !result.tips?.length);
+        if(noLists){
+          homeError.innerHTML = result.aiText || 'I’m not sure I understood. Could you rephrase what you’re feeling?';
+          homeError.style.display='block';
+          return;
+        }
         renderResult(result);
-      } catch (err) {
+        switchScreen('results');
+      }catch(err){
         console.error(err);
-        aiMsgEl.textContent = 'Could not reach the AI service. Please check your API key or try again.';
-      } finally {
-        spinEl.style.display = 'none';
-        analyzeBtn.disabled = false;
+        homeError.textContent = 'Could not reach the AI service. Please check your API key or try again.';
+        homeError.style.display='block';
+      }finally{
+        spinEl.style.display='none';
+        analyzeBtn.disabled=false;
       }
     });
 
-    // --- Demo AI (on-device heuristic) -------------------------------------
-    async function analyzeViaServer(moods, story) {
+    // Same server hook as before (moods removed; story-only)
+    async function analyzeViaServer(moods, story){
       const res = await fetch("/api/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ moods, story })
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({ moods, story })
       });
 
       let data = {};
-      try { data = await res.json(); } catch (_) {}
+      try{ data = await res.json(); }catch(_){}
 
-      if (!res.ok) {
+      if(!res.ok){
         console.error("API error:", res.status, data);
         throw new Error(data?.detail || data?.error || `AI HTTP ${res.status}`);
       }
 
       const inferred = (data.inferredMoods || []).map(s => s.toLowerCase());
-      const isUnclear = inferred.length === 1 && inferred[0] === "unclear";
-      if (isUnclear) {
-        return { aiText: data.aiText || "I’m not sure I understood. Could you rephrase what you’re feeling?", places: [], sounds: [], tips: [] };
+      const isUnclear = inferred.length===1 && inferred[0]==="unclear";
+      if(isUnclear){
+        // No suggestions if unclear — show clarifying line on Screen 1
+        return { aiText: data.aiText || "I’m not sure I understood. Could you rephrase what you’re feeling?", places:[], sounds:[], tips:[] };
       }
 
-      const effectiveMoods = (moods && moods.length) ? moods : inferred;
-      const heuristic = analyzeLocally([...effectiveMoods], story);
+      const heuristic = analyzeLocally(inferred, story);
       return { aiText: data.aiText || heuristic.aiText, places: heuristic.places, sounds: heuristic.sounds, tips: heuristic.tips };
     }
 
-
-    function analyzeLocally(moods, story) {
-      // Extract keywords and normalize.
+    // Heuristic stays largely the same, now deriving moods from AI + text only
+    function analyzeLocally(moods, story){
       const text = (story || '').toLowerCase();
       const kw = {
         sleep: /(sleep|insomnia|tired|fatigue)/.test(text),
@@ -336,35 +324,33 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
         anxiety: /(anxiety|anxious|panic|worry|worried|nervous)/.test(text),
       };
 
-      // Expand moods from text if none selected.
-      if (!moods.length) {
-        if (kw.anxiety) moods.push('anxious');
-        if (kw.anger) moods.push('angry');
-        if (kw.social) moods.push('lonely');
-        if (kw.sleep) moods.push('tired');
-        if (!moods.length) moods = ['stressed'];
+      // If the AI didn’t infer much, expand from keywords
+      if(!moods?.length){
+        if(kw.anxiety) moods.push('anxious');
+        if(kw.anger) moods.push('angry');
+        if(kw.social) moods.push('lonely');
+        if(kw.sleep) moods.push('tired');
+        if(!moods.length) moods = ['stressed'];
       }
 
-      // Score places by how many mood tags they match.
+      // Places scored by mood overlap
       const placeScores = UAE_PLACES.map(p => ({
-        place: p,
-        score: p.moods.reduce((s,m)=> s + (moods.includes(m)?1:0), 0)
+        place:p, score:p.moods.reduce((s,m)=> s + (moods.includes(m)?1:0), 0)
       })).sort((a,b)=> b.score - a.score || a.place.name.localeCompare(b.place.name));
       const topPlaces = placeScores.filter(x=>x.score>0).slice(0,6).map(x=>x.place);
       const fallbackPlaces = UAE_PLACES.slice(0,6);
 
-      // Pick sounds that align with moods.
+      // Sounds by mood
       const topSounds = SOUND_THEMES.filter(s => s.moods.some(m => moods.includes(m))).slice(0,6);
 
-      // Tips — choose a few and add a targeted one.
+      // Tips (+ a targeted nudge)
       const tips = [...GENERIC_TIPS];
-      if (kw.sleep) tips.unshift({ text: 'Aim for a gentle wind-down routine 60–90 minutes before bed (dim lights, no heavy screens, stretch).' });
-      if (kw.study) tips.unshift({ text: 'Try a 25-minute focus block near daylight, followed by a 5-minute walk break.' });
-      if (kw.work) tips.unshift({ text: 'Block a 15-minute “reset” break between meetings to breathe and step outside if possible.' });
-      if (kw.social) tips.unshift({ text: 'Message one person today and ask to meet for a short walk or coffee.' });
-      if (kw.anger) tips.unshift({ text: 'Do 3 rounds of brisk walking or light stairs to discharge tension before conversations.' });
+      if(kw.sleep) tips.unshift({ text: 'Try a 60–90 min wind-down (dim lights, stretch, no heavy screens).' });
+      if(kw.study) tips.unshift({ text: 'Do a 25-minute focus block near daylight, then 5-minute walk.' });
+      if(kw.work)  tips.unshift({ text: 'Take a 15-minute reset break between meetings to step outside.' });
+      if(kw.social)tips.unshift({ text: 'Message one person today to meet for a short walk or coffee.' });
+      if(kw.anger) tips.unshift({ text: 'Do 3 rounds of brisk walking or light stairs to release tension.' });
 
-      // Compose a gentle AI paragraph (fallback if server doesn’t send one)
       const moodLine = moods.length
         ? `I’m hearing themes like ${moods.map(m=>`<strong>${m}</strong>`).join(', ')}.`
         : 'Thanks for sharing — I’ll keep suggestions gentle and flexible.';
@@ -379,103 +365,58 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
       };
     }
 
-    // --- Render -------------------------------------------------------------
-    function renderResult({ aiText, places, sounds, tips }) {
+    // Render results
+    function renderResult({ aiText, places, sounds, tips }){
       aiMsgEl.innerHTML = aiText;
 
-      // If unclear: invite the user to clarify and skip the lists
-      const titleEl = document.getElementById('resultTitle');
-      const isUnclear = ((!places || places.length === 0) &&
-                        (!sounds || sounds.length === 0) &&
-                        (!tips   || tips.length   === 0));
-
-      if (isUnclear) {
-        titleEl.textContent = 'Clarification needed';
-        placesList.innerHTML = '';
-        soundsList.innerHTML = '';
-        tipsEl.innerHTML = '';
-        mapViewer.removeAttribute('src');
-        videoViewer.removeAttribute('src');
-
-        const hint = document.createElement('div');
-        hint.className = 'help';
-        hint.style.marginTop = '8px';
-        hint.textContent = 'Please add a bit more detail (e.g., is it sleep, studies, relationships, or work?).';
-        aiMsgEl.appendChild(hint);
-
-        storyEl.focus();
-        return; // ⬅️ important: don’t render empty sections
-      } else {
-        titleEl.textContent = 'Suggestions';
-      }
-
-      // (existing rendering for normal case)
-      // PLACES: list (left) + viewer (right)
-      placesList.innerHTML = '';
-      mapViewer.removeAttribute('src');
-      let firstPlaceURL = '';
-      places.forEach((p, idx) => {
-        const item = document.createElement('button');
-        item.className = 'item';
-        item.setAttribute('role', 'option');
-        item.setAttribute('aria-selected', 'false');
+      // Places
+      placesList.innerHTML=''; mapViewer.removeAttribute('src');
+      let firstPlaceURL='';
+      places.forEach((p,idx)=>{
+        const item=document.createElement('button');
+        item.className='item'; item.setAttribute('role','option'); item.setAttribute('aria-selected','false');
         item.innerHTML = `<div><strong>${p.name}</strong></div><div class="meta">${p.emirate} • ${p.kind}</div>`;
-        const q = (p.maps || p.name).replace(/\+/g, ' ');
-        const url = `https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
-        if (idx === 0) firstPlaceURL = url;
-        item.addEventListener('click', () => {
-          document.querySelectorAll('#placesList .item').forEach(el => el.setAttribute('aria-selected','false'));
-          item.setAttribute('aria-selected','true');
-          mapViewer.src = url;
+        const q=(p.maps || p.name).replace(/\+/g,' ');
+        const url=`https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
+        if(idx===0) firstPlaceURL=url;
+        item.addEventListener('click',()=>{
+          document.querySelectorAll('#placesList .item').forEach(el=>el.setAttribute('aria-selected','false'));
+          item.setAttribute('aria-selected','true'); mapViewer.src=url;
         });
         placesList.appendChild(item);
       });
-      const firstPlace = placesList.querySelector('.item');
-      if (firstPlace) { firstPlace.click(); } else if (firstPlaceURL) { mapViewer.src = firstPlaceURL; }
+      const firstPlace=placesList.querySelector('.item');
+      if(firstPlace){ firstPlace.click(); } else if(firstPlaceURL){ mapViewer.src=firstPlaceURL; }
 
-      // SOUNDS
-      soundsList.innerHTML = '';
-      videoViewer.removeAttribute('src');
-      let firstVideoURL = '';
-      sounds.forEach((s, idx) => {
-        const item = document.createElement('button');
-        item.className = 'item';
-        item.setAttribute('role', 'option');
-        item.setAttribute('aria-selected', 'false');
+      // Sounds
+      soundsList.innerHTML=''; videoViewer.removeAttribute('src');
+      let firstVideoURL='';
+      sounds.forEach((s,idx)=>{
+        const item=document.createElement('button');
+        item.className='item'; item.setAttribute('role','option'); item.setAttribute('aria-selected','false');
         item.innerHTML = `<div><strong>${s.label}</strong></div><div class="meta">First YouTube result</div>`;
-        const q = s.query.replace(/\+/g, ' ');
-        const url = `https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(q)}&rel=0&modestbranding=1`;
-        if (idx === 0) firstVideoURL = url;
-        item.addEventListener('click', () => {
-          document.querySelectorAll('#soundsList .item').forEach(el => el.setAttribute('aria-selected','false'));
-          item.setAttribute('aria-selected','true');
-          videoViewer.src = url;
+        const q=s.query.replace(/\+/g,' ');
+        const url=`https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(q)}&rel=0&modestbranding=1`;
+        if(idx===0) firstVideoURL=url;
+        item.addEventListener('click',()=>{
+          document.querySelectorAll('#soundsList .item').forEach(el=>el.setAttribute('aria-selected','false'));
+          item.setAttribute('aria-selected','true'); videoViewer.src=url;
         });
         soundsList.appendChild(item);
       });
-      const firstSound = soundsList.querySelector('.item');
-      if (firstSound) { firstSound.click(); } else if (firstVideoURL) { videoViewer.src = firstVideoURL; }
+      const firstSound=soundsList.querySelector('.item');
+      if(firstSound){ firstSound.click(); } else if(firstVideoURL){ videoViewer.src=firstVideoURL; }
 
-      // TIPS
-      tipsEl.innerHTML = '';
-      for (const t of tips) {
-        const el = document.createElement('div');
-        el.className = 'tip';
-        el.textContent = t.text;
-        tipsEl.appendChild(el);
-      }
+      // Tips
+      tipsEl.innerHTML='';
+      tips.forEach(t=>{
+        const el=document.createElement('div');
+        el.className='tip'; el.textContent=t.text; tipsEl.appendChild(el);
+      });
 
-      safetyNote.innerHTML = `Remember: this tool can’t diagnose or treat. If symptoms persist, consider speaking with a licensed professional in the UAE (e.g., via your emirate’s health services).`;
+      titleEl.textContent='Suggestions';
+      safetyNote.innerHTML=`Remember: this tool can’t diagnose or treat. If symptoms persist, consider speaking with a licensed professional in the UAE (e.g., via your emirate’s health services).`;
     }
-
-
-    // --- (Optional) Server-side AI hook ------------------------------------ ------------------------------------
-    // If you later add a server endpoint, you can swap analyzeLocally with a fetch:
-    // async function analyzeViaServer(moods, story) {
-    //   const res = await fetch('/api/ai', {method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({moods, story})});
-    //   if (!res.ok) throw new Error('AI error');
-    //   return await res.json(); // Expect { aiText, places, sounds, tips }
-    // }
   </script>
 </body>
 </html>
