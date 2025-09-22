@@ -522,7 +522,6 @@
         const item=document.createElement('button');
         item.className='item'; item.setAttribute('role','option'); item.setAttribute('aria-selected','false');
         item.innerHTML = `<div style="color: whitesmoke; weight: bold;"><strong>${s.label}</strong></div><div class="meta">First YouTube result</div>`;
-        const q=s.query.replace(/\+/g,' ');
         const url = `https://www.youtube-nocookie.com/embed/${s.videoId}?rel=0&modestbranding=1&autoplay=0`;
         if(idx===0) firstVideoURL=url;
         item.addEventListener('click',()=>{
