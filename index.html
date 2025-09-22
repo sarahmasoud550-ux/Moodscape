@@ -97,17 +97,26 @@
       margin: 18px;
     }
     .phones{
-      display:grid;gap:10px;width:100%;
+      display:grid;gap:16px;width:100%;
       grid-template-columns: 1fr;
     }
-    @media (min-width:720px){ .phones{grid-template-columns:repeat(3,1fr)} }
+    @media (min-width:600px){ .phones{grid-template-columns:repeat(2,1fr)} }
+    @media (min-width:900px){ .phones{grid-template-columns:repeat(3,1fr)} }
     .pill{
-      background:rgba(255,255,255,.55);
+      background:rgba(255,255,255,.65);
       border:1px solid var(--border);
-      border-radius:999px;
-      padding:10px 14px;
-      display:grid;gap:2px;place-items:center;
+      border-radius:16px;
+      padding:16px 20px;
+      display:flex;flex-direction:column;gap:6px;
+      align-items:center;text-align:center;
+      transition: transform .2s ease, box-shadow .2s ease;
     }
+    .pill:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-2);
+    }
+    .pill strong{font-weight:700;font-size:15px}
+    .pill span{font-size:16px;font-weight:600;color:var(--muted)}
     @media (prefers-color-scheme: dark){
       .pill{background:rgba(255,255,255,.04)}
     }
@@ -236,8 +245,8 @@
             <div class="pill"><strong>Police</strong><span>999</span></div>
             <div class="pill"><strong>Ambulance</strong><span>998</span></div>
             <div class="pill"><strong>Mental Support Line</strong><span>800-HOPE (8004673)</span></div>
-            <div class="pill"><strong>Abu Dhabi “Estijaba”</strong><span>8001717 (psychological support)</span></div>
-            <div class="pill"><strong>DFWAC (Women & Children)</strong><span>800111 (24/7)</span></div>
+            <div class="pill"><strong>Abu Dhabi “Estijaba”</strong><span>8001717</span></div>
+            <div class="pill"><strong>DFWAC (Women & Children)</strong><span>800111</span></div>
           </div>
           <p class="help">Numbers above are for UAE residents. Educational use only — not medical advice.</p>
         </div>
