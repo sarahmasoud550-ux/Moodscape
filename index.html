@@ -329,12 +329,12 @@
       { name: 'Sharjah Art Museum', emirate: 'Sharjah', kind: 'museum • quiet rooms', moods: ['overwhelmed','anxious','stressed'], maps: 'Sharjah+Art+Museum' }
     ];
     const SOUND_THEMES = [
-      { label: 'Ocean waves', moods: ['sad','anxious','tired','overwhelmed'], query: 'ocean+waves+10+hours' },
-      { label: 'Light rain', moods: ['sad','anxious','stressed','tired'], query: 'rain+sounds+10+hours' },
-      { label: 'Forest ambience', moods: ['anxious','overwhelmed','burned out'], query: 'forest+ambience+birds+relaxing' },
-      { label: 'Desert night wind', moods: ['frustrated','angry','burned out'], query: 'desert+wind+ambience+night' },
-      { label: 'Creek / gentle water', moods: ['stressed','anxious'], query: 'gentle+stream+water+sounds' },
-      { label: 'Brown noise (softer than white)', moods: ['anxious','tired','overwhelmed'], query: 'brown+noise+sleep+focus' }
+      { label: 'Ocean waves', moods: ['sad','anxious','tired','overwhelmed'], videoId: 'V1bFr2SWP1I' }, // "Ocean Waves Relaxing Sounds 11 Hours"
+      { label: 'Light rain', moods: ['sad','anxious','stressed','tired'], videoId: 'mPZkdNFkNps' }, // "Rain Sounds for Sleeping 10 Hours"
+      { label: 'Forest ambience', moods: ['anxious','overwhelmed','burned out'], videoId: 'xNN7iTA57jM' }, // "Forest Sounds Relaxing Nature 10 Hours"
+      { label: 'Desert night wind', moods: ['frustrated','angry','burned out'], videoId: 'eKFTSSKCzWA' }, // "Desert Wind Sounds 8 Hours"
+      { label: 'Creek / gentle water', moods: ['stressed','anxious'], videoId: 'sySlY1XKlhM' }, // "Gentle Stream Water Sounds 10 Hours"
+      { label: 'Brown noise (softer than white)', moods: ['anxious','tired','overwhelmed'], videoId: 'RqzGzwkcceM' } // "Brown Noise 10 Hours for Sleep"
     ];
     const GENERIC_TIPS = [
       { text: 'Box breathing 4-4-4-4 for 3 minutes.' },
@@ -523,7 +523,7 @@
         item.className='item'; item.setAttribute('role','option'); item.setAttribute('aria-selected','false');
         item.innerHTML = `<div style="color: whitesmoke; weight: bold;"><strong>${s.label}</strong></div><div class="meta">First YouTube result</div>`;
         const q=s.query.replace(/\+/g,' ');
-        const url=`https://www.youtube-nocookie.com/embed?listType=search&list=${encodeURIComponent(q)}&rel=0&modestbranding=1`;
+        const url = `https://www.youtube-nocookie.com/embed/${s.videoId}?rel=0&modestbranding=1&autoplay=0`;
         if(idx===0) firstVideoURL=url;
         item.addEventListener('click',()=>{
           document.querySelectorAll('#soundsList .item').forEach(el=>el.setAttribute('aria-selected','false'));
