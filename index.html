@@ -488,7 +488,7 @@
       places.forEach((p,idx)=>{
         const item=document.createElement('button');
         item.className='item'; item.setAttribute('role','option'); item.setAttribute('aria-selected','false');
-        item.innerHTML = `<div><strong>${p.name}</strong></div><div class="meta">${p.emirate} • ${p.kind}</div>`;
+        item.innerHTML = `<div style="color: white; weight: bold;"><strong>${p.name}</strong></div><div class="meta">${p.emirate} • ${p.kind}</div>`;
         const q=(p.maps || p.name).replace(/\+/g,' ');
         const url=`https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
         if(idx===0) firstPlaceURL=url;
