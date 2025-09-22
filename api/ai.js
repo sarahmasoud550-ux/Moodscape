@@ -37,18 +37,22 @@ export default async function handler(req, res) {
 
             VALID CATEGORIES (comma-separated): sad, anxious, stressed, overwhelmed, angry, frustrated, lonely, burned out, tired, worried.
 
-            OUTPUT FORMAT:
+            OUTPUT FORMAT
             Line 1: either one or more categories (comma-separated) OR the exact word "unclear".
             Line 2:
             - If Line 1 == "unclear": write ONE short clarifying question and NOTHING else.
-            - Otherwise (confident): write ONE short, supportive statement with NO questions and NO question marks.
+            - Otherwise (confident): write ONE short supportive statement in this structure:
+                "Felt: <categories>. <swift, practical nudge in <=15 words>. Here is a list of suggestions of places you can visit to calm down and some audios you can listen to."
+                • No question marks.
+                • Keep it warm and non-judgmental.
 
-            RULES:
+            RULES
             - Only output "unclear" if you truly cannot confidently map the input to the categories above.
-            - When confident, do NOT include any question marks or requests for more info.
-            - Keep Line 2 to ~20 words max.
+            - When confident, Line 2 MUST start with "Felt: <categories>." and MUST end with the exact sentence tail above.
+            - Keep Line 2 concise (~20–30 words total).
             `
-          },
+          }
+,
           {
             role: "user",
             content:
