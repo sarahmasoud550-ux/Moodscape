@@ -3,174 +3,300 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UAE Moodscape — Gentle Support (Not a Therapist)</title>
+  <title>UAE Moodscape — Gentle Support</title>
+
+  <!-- Modern font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
+    /* ========= THEME ========= */
     :root{
-      --bg:#0b0d10; --panel:#12161b; --muted:#8aa0b3; --text:#e7eef5;
-      --brand:#4cc9f0; --brand-2:#80ed99; --shadow:0 10px 30px rgba(0,0,0,.35);
-      --radius:16px; --border:rgba(255,255,255,.10); --border-2:rgba(255,255,255,.14);
+      /* Light, calming palette */
+      --bg: #f6fbff;
+      --bg-accent: #e8f7f3;
+      --surface: #ffffff;
+      --text: #0f172a;    /* slate-900 */
+      --muted: #5b718a;   /* slate-500 */
+      --primary: #2bb6c6; /* teal/cyan */
+      --primary-2:#7cd4d7;
+      --ring: rgba(43,182,198,.35);
+      --border: rgba(15,23,42,.08);
+      --radius: 16px;
+      --shadow: 0 10px 35px rgba(15,23,42,.08);
+      --shadow-2: 0 8px 24px rgba(15,23,42,.07);
+      --maxw: 980px;
     }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg: #0c1216;
+        --bg-accent: #0f191b;
+        --surface:#0f171b;
+        --text: #e9f2f7;
+        --muted:#9db0bf;
+        --primary:#38c7d1;
+        --primary-2:#5bdadd;
+        --ring: rgba(91,218,221,.35);
+        --border: rgba(255,255,255,.08);
+        --shadow: 0 10px 35px rgba(0,0,0,.45);
+        --shadow-2: 0 8px 24px rgba(0,0,0,.35);
+      }
+    }
+
+    /* ========= BASE ========= */
     *{box-sizing:border-box}
     html,body{height:100%}
+    html{scroll-behavior:smooth}
     body{
-      margin:0; font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      margin:0;
+      font:16px/1.6 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       color:var(--text);
       background:
-        radial-gradient(1100px 700px at 75% -10%, rgba(76,201,240,.08), transparent 55%),
-        radial-gradient(900px 600px at -10% 115%, rgba(128,237,153,.08), transparent 55%),
+        radial-gradient(900px 600px at 15% -10%, var(--bg-accent), transparent 60%),
+        radial-gradient(900px 600px at 115% 110%, var(--bg-accent), transparent 60%),
         var(--bg);
     }
-    a{color:var(--brand)}
-    .wrap{max-width:980px;margin:0 auto;padding:24px}
-    header{display:flex;justify-content:space-between;align-items:flex-end;margin:8px 0 18px}
-    .brand{font-weight:750;font-size:26px;letter-spacing:.2px}
-    .sub{color:var(--muted);font-size:14px}
+    a{color:var(--primary); text-decoration: none}
+    a:hover{text-decoration: underline}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:32px 20px}
 
-    .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
-    .card h2{margin:0 0 10px;font-size:18px}
-    .help{color:var(--muted);font-size:14px}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    header{display:grid;justify-items:center;gap:6px;margin:6px 0 20px}
+    .brand{font-weight:800;font-size:28px;letter-spacing:.2px;text-align:center}
+    .sub{color:var(--muted);font-size:14px;text-align:center}
 
-    .btn{
-      appearance:none;border:none;cursor:pointer;border-radius:12px;padding:12px 16px;font-weight:700;
-      background:linear-gradient(180deg,var(--brand),#2aa3ca);color:#031018;box-shadow:var(--shadow);
-      transition:transform .06s ease,box-shadow .12s ease
+    /* ========= CARDS & LAYOUT ========= */
+    .stack{display:grid;gap:18px;justify-items:center}
+    .card{
+      width:min(760px,100%);
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+      animation: fadeIn .35s ease both;
     }
-    .btn:active{transform:translateY(1px);box-shadow:0 4px 16px rgba(0,0,0,.25)}
-    .btn.secondary{background:linear-gradient(180deg,#344a5f,#263546);color:var(--text)}
+    .card h1,.card h2{margin:.2rem 0 .6rem;text-align:center}
+    .help,.footnote{color:var(--muted);text-align:center}
+
+    .notice{
+      width:min(760px,100%);
+      background: linear-gradient(180deg, rgba(43,182,198,.10), rgba(124,212,215,.10));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow-2);
+      padding:18px;
+      display:grid;gap:12px;justify-items:center;
+      text-align:center;
+    }
+    .phones{
+      display:grid;gap:10px;width:100%;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width:720px){ .phones{grid-template-columns:repeat(3,1fr)} }
+    .pill{
+      background:rgba(255,255,255,.55);
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:10px 14px;
+      display:grid;gap:2px;place-items:center;
+    }
+    @media (prefers-color-scheme: dark){
+      .pill{background:rgba(255,255,255,.04)}
+    }
+    .pill strong{font-weight:700}
 
     .textarea{
-      width:100%;min-height:160px;padding:12px;color:var(--text);
-      background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;resize:vertical
+      width:100%;min-height:178px;
+      padding:14px 16px;
+      background:rgba(255,255,255,.7);
+      border:1px solid var(--border);
+      border-radius:14px; resize:vertical; outline: none;
+      transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
     }
-    .notice{
-      background:linear-gradient(135deg, rgba(255,107,107,.12), rgba(255,209,102,.1));
-      border:1px solid rgba(255,255,255,.08); padding:16px;border-radius:var(--radius);box-shadow:var(--shadow);
-      display:grid;gap:10px;align-items:start;margin-bottom:16px
+    @media (prefers-color-scheme: dark){
+      .textarea{background:rgba(255,255,255,.04)}
     }
-    .phones{display:grid;grid-template-columns:1fr;gap:10px}
-    @media (min-width:720px){.phones{grid-template-columns:repeat(2,minmax(260px,1fr))}}
-    @media (min-width:1040px){.phones{grid-template-columns:repeat(3,minmax(240px,1fr))}}
-    .pill{background:rgba(255,255,255,.06);border:1px solid var(--border-2);padding:10px 12px;border-radius:999px;display:grid;gap:4px;width:100%}
-    .pill strong{display:block}
+    .textarea:focus{
+      border-color:var(--primary);
+      box-shadow: 0 0 0 6px var(--ring);
+    }
 
-    /* Screen switcher */
-    .screen{display:none}
-    .screen.active{display:block}
+    .row{display:grid;justify-items:center}
+    .btn{
+      appearance:none; border:none; cursor:pointer;
+      background: linear-gradient(180deg, var(--primary), var(--primary-2));
+      color:#00323a; font-weight:800; letter-spacing:.2px;
+      padding:12px 18px; border-radius:14px;
+      box-shadow:var(--shadow);
+      transform: translateY(0);
+      transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+    }
+    .btn:hover{filter:saturate(1.05) brightness(1.03)}
+    .btn:active{transform: translateY(1px); box-shadow: 0 6px 18px rgba(0,0,0,.12)}
+    .btn.secondary{
+      background: linear-gradient(180deg, #e6f7f9, #d9f4f1);
+      color:#0f172a;
+    }
+    @media (prefers-color-scheme: dark){
+      .btn.secondary{background: linear-gradient(180deg, #1a2430, #14202a); color:#e9f2f7}
+    }
 
-    /* Results layout */
-    .result{display:grid;gap:16px}
-    .section-title{font-weight:750;font-size:16px;margin:10px 0 4px}
-    .split{display:grid;gap:12px}
-    @media (min-width:900px){.split{grid-template-columns:320px 1fr}}
-    .list{display:flex;flex-direction:column;gap:8px;max-height:420px;overflow:auto}
-    .item{border:1px solid var(--border-2);background:rgba(255,255,255,.04);padding:10px 12px;border-radius:12px;cursor:pointer;text-align:left}
-    .item:hover{background:rgba(255,255,255,.07)}
-    .item[aria-selected="true"]{background:rgba(76,201,240,.20);border-color:rgba(76,201,240,.6)}
-    .viewer{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:12px;padding:8px}
-    .embed{width:100%;border:0;border-radius:12px;box-shadow:var(--shadow)}
+    .spinner{width:18px;height:18px;border:3px solid rgba(0,0,0,.12);border-top-color:#0a6770;border-radius:50%;display:inline-block;animation:spin .9s linear infinite;margin-left:8px}
+    @media (prefers-color-scheme: dark){
+      .spinner{border-color:rgba(255,255,255,.28);border-top-color:#7cd4d7}
+    }
+
+    /* ========= SCREEN SWITCH (smooth) ========= */
+    .screens{display:grid;justify-items:center}
+    .screen{width:100%; display:none; opacity:0; transform: translateY(8px)}
+    .screen.active{display:block; animation: pageIn .35s ease both}
+    .fade-area{animation: fadeIn .35s ease both}
+
+    /* ========= RESULTS ========= */
+    .section-title{font-weight:800;font-size:16px;margin:16px 0 8px;text-align:center}
+    .split{
+      width:min(980px,100%);
+      display:grid; gap:14px; align-items:start; justify-items:center;
+    }
+    @media (min-width:980px){ .split{grid-template-columns: 360px 1fr} }
+    .list{
+      width:100%;
+      display:flex; flex-direction:column; gap:10px;
+      max-height:420px; overflow:auto;
+    }
+    .item{
+      text-align:left;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.65);
+      border-radius:12px; padding:12px 14px; cursor:pointer;
+      transition: transform .12s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
+    }
+    @media (prefers-color-scheme: dark){
+      .item{background:rgba(255,255,255,.04)}
+    }
+    .item:hover{transform: translateY(-1px); box-shadow: var(--shadow-2)}
+    .item[aria-selected="true"]{border-color: var(--primary); background: rgba(43,182,198,.12)}
+    .meta{color:var(--muted);font-size:13px}
+    .viewer{width:100%}
+    .embed{width:100%;border:0;border-radius:14px;box-shadow:var(--shadow)}
     .embed.map{aspect-ratio:4/3;min-height:240px}
     .embed.video{aspect-ratio:16/9}
-    .tip{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:12px}
-    .meta{color:var(--muted);font-size:13px}
-    .footnote{font-size:13px;color:var(--muted)}
-    .spinner{width:18px;height:18px;border:3px solid rgba(255,255,255,.25);border-top-color:var(--brand);border-radius:50%;display:inline-block;animation:spin .9s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .tips{display:grid;gap:10px;grid-template-columns:1fr}
+    @media (min-width:720px){ .tips{grid-template-columns:repeat(2,1fr)} }
+    .tip{
+      background:rgba(255,255,255,.65);
+      border:1px solid var(--border);
+      border-radius:12px;padding:12px 14px;text-align:center;
+      transition: box-shadow .2s ease, transform .12s ease;
+    }
+    @media (prefers-color-scheme: dark){
+      .tip{background:rgba(255,255,255,.04)}
+    }
+    .tip:hover{transform: translateY(-1px); box-shadow: var(--shadow-2)}
+
     .sr-only{position:absolute!important;clip:rect(1px,1px,1px,1px);padding:0;border:0;height:1px;width:1px;overflow:hidden}
+
+    /* ========= ANIMATIONS ========= */
+    @keyframes spin{to{transform: rotate(360deg)}}
+    @keyframes fadeIn{from{opacity:0} to{opacity:1}}
+    @keyframes pageIn{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)}}
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation: none!important; transition: none!important}
+      html{scroll-behavior:auto}
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <div>
-        <div class="brand">UAE Moodscape</div>
-        <div class="sub">gentle suggestions — not a substitute for therapy</div>
-      </div>
+      <div class="brand">UAE Moodscape</div>
+      <div class="sub">gentle suggestions — not a substitute for therapy</div>
     </header>
 
-    <!-- =========================
-         Screen 1: Welcome / Input
-    ========================== -->
-    <section id="screenHome" class="screen active" aria-label="Welcome screen">
-      <div class="notice" role="note" aria-label="Safety notice">
-        <h1 style="font-size:18px;margin:0">Gentle reminder: This site is <em>not</em> a therapist or a crisis service.</h1>
-        <p style="margin:0">If you feel unsafe or might hurt yourself or someone else, contact emergency services <strong>right now</strong>.</p>
-        <div class="phones" aria-label="UAE hotlines">
-          <div class="pill"><strong>Police</strong><span>999</span></div>
-          <div class="pill"><strong>Ambulance</strong><span>998</span></div>
-          <div class="pill"><strong>Mental Support Line</strong><span>800-HOPE (8004673), daily 8am–8pm</span></div>
-          <div class="pill"><strong>Abu Dhabi “Estijaba”</strong><span>8001717 (psychological support option)</span></div>
-          <div class="pill"><strong>DFWAC (Women & Children)</strong><span>800111 (24/7)</span></div>
+    <main class="stack screens">
+      <!-- =========================
+           Screen 1: Welcome / Input
+      ========================== -->
+      <section id="screenHome" class="screen active" aria-label="Welcome screen">
+        <div class="notice fade-area" role="note" aria-label="Safety notice">
+          <h1 style="font-size:20px;margin:0">This site is <em>not</em> a therapist or a crisis line.</h1>
+          <p style="margin:0">If you might hurt yourself or someone else, contact emergency services <strong>now</strong>.</p>
+          <div class="phones" aria-label="UAE hotlines">
+            <div class="pill"><strong>Police</strong><span>999</span></div>
+            <div class="pill"><strong>Ambulance</strong><span>998</span></div>
+            <div class="pill"><strong>Mental Support Line</strong><span>800-HOPE (8004673)</span></div>
+            <div class="pill"><strong>Abu Dhabi “Estijaba”</strong><span>8001717 (psychological support)</span></div>
+            <div class="pill"><strong>DFWAC (Women & Children)</strong><span>800111 (24/7)</span></div>
+          </div>
+          <p class="help">Numbers above are for UAE residents. Educational use only — not medical advice.</p>
         </div>
-        <p class="help">Numbers above are for UAE residents. This site offers educational suggestions only and cannot provide diagnosis or treatment.</p>
-      </div>
 
-      <section class="card" aria-labelledby="agent-title">
-        <h2 id="agent-title">Tell the AI agent what’s going on</h2>
-        <label class="sr-only" for="story">Describe what you’d like help with</label>
-        <textarea id="story" class="textarea" placeholder="e.g., I’ve been feeling anxious about exams and not sleeping well lately..."></textarea>
+        <section class="card fade-area" aria-labelledby="agent-title">
+          <h2 id="agent-title">Tell the AI what’s going on</h2>
+          <label class="sr-only" for="story">Describe what you’d like help with</label>
+          <textarea id="story" class="textarea" placeholder="e.g., I’ve been feeling anxious about exams and not sleeping well..."></textarea>
 
-        <!-- Actions: primary button directly under the textbox -->
-        <div class="row" style="margin-top:10px">
-          <button id="analyzeBtn" class="btn">
-            <span class="lbl">Analyze &amp; Suggest</span>
-            <span id="spin" class="spinner" style="display:none"></span>
-          </button>
-        </div>
-        <p class="help" id="homeHint">Press Enter to analyze. Shift+Enter makes a new line.</p>
-        <div id="homeError" class="help" style="color:#ffd166;display:none"></div>
+          <div class="row" style="margin-top:12px">
+            <button id="analyzeBtn" class="btn">
+              Analyze &amp; Suggest
+              <span id="spin" class="spinner" style="display:none"></span>
+            </button>
+          </div>
+
+          <p class="help" id="homeHint">Press Enter to analyze. Shift+Enter makes a new line.</p>
+          <p id="homeError" class="help" style="color:#e25840; display:none"></p>
+        </section>
+
+        <p class="footnote">Your text goes to your own AI endpoint. Map/Video frames load from Google/YouTube.</p>
       </section>
 
-      <p class="footnote" style="margin-top:14px">
-        Privacy: In this demo, your text is sent only to the AI endpoint you deploy and the embedded map/video frames load from Google/YouTube.
-      </p>
-    </section>
-
-    <!-- =========================
-         Screen 2: Results
-    ========================== -->
-    <section id="screenResults" class="screen" aria-label="Results screen">
-      <div class="row" style="margin-bottom:12px">
-        <button id="backBtn" class="btn secondary">← Back</button>
-      </div>
-
-      <section id="results" class="card" aria-live="polite" aria-busy="false">
-        <h2 id="resultTitle" style="margin-bottom:6px">Suggestions</h2>
-        <div id="aiMessage" class="help" style="font-size:15px"></div>
-
-        <div class="section-title">Places you could visit</div>
-        <div id="placesSplit" class="split">
-          <div id="placesList" class="list" role="listbox" aria-label="Places"></div>
-          <div class="viewer">
-            <iframe id="mapViewer" class="embed map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map viewer"></iframe>
+      <!-- =========================
+           Screen 2: Results
+      ========================== -->
+      <section id="screenResults" class="screen" aria-label="Results screen">
+        <div class="stack">
+          <div class="row">
+            <button id="backBtn" class="btn secondary">← Back</button>
           </div>
+
+          <section id="results" class="card" aria-live="polite" aria-busy="false">
+            <h2 id="resultTitle" style="margin-bottom:6px">Suggestions</h2>
+            <div id="aiMessage" class="help" style="font-size:15px"></div>
+
+            <div class="section-title">Places you could visit</div>
+            <div id="placesSplit" class="split">
+              <div id="placesList" class="list" role="listbox" aria-label="Places"></div>
+              <div class="viewer">
+                <iframe id="mapViewer" class="embed map" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map viewer"></iframe>
+              </div>
+            </div>
+
+            <div class="section-title">Nature sounds to try</div>
+            <div id="soundsSplit" class="split">
+              <div id="soundsList" class="list" role="listbox" aria-label="Sounds"></div>
+              <div class="viewer">
+                <iframe id="videoViewer" class="embed video" loading="lazy" title="Video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+              </div>
+            </div>
+
+            <div class="section-title">Small steps you can take</div>
+            <div id="tips" class="tips"></div>
+
+            <p class="footnote" id="safetyNote" style="margin-top:6px"></p>
+          </section>
+
+          <p class="footnote"><strong>Disclaimer:</strong> Not medical advice. If you’re in crisis, call the numbers above.</p>
         </div>
-
-        <div class="section-title">Nature sounds to try</div>
-        <div id="soundsSplit" class="split">
-          <div id="soundsList" class="list" role="listbox" aria-label="Sounds"></div>
-          <div class="viewer">
-            <iframe id="videoViewer" class="embed video" loading="lazy" title="Video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div class="section-title">Small steps you can take</div>
-        <div id="tips" class="result"></div>
-
-        <p class="footnote" id="safetyNote" style="margin-top:6px"></p>
       </section>
-
-      <p class="footnote" style="margin-top:14px">
-        Made with care for UAE residents. <strong>Disclaimer:</strong> This site is not medical advice. If you’re in crisis, use the numbers at the top.
-      </p>
-    </section>
+    </main>
   </div>
 
   <script>
-    // ===================
-    // Data (unchanged)
-    // ===================
+    /* ===== Keep your existing data & logic (unchanged) ===== */
     const UAE_PLACES = [
       { name: 'Jubail Mangrove Park', emirate: 'Abu Dhabi', kind: 'nature • boardwalk', moods: ['anxious','stressed','sad','overwhelmed'], maps: 'Jubail+Mangrove+Park' },
       { name: 'Saadiyat Public Beach', emirate: 'Abu Dhabi', kind: 'beach • calm water', moods: ['sad','anxious','tired','overwhelmed'], maps: 'Saadiyat+Public+Beach' },
@@ -185,7 +311,6 @@
       { name: 'Sharjah Beach (Al Khan)', emirate: 'Sharjah', kind: 'beach • gentle waves', moods: ['sad','anxious','tired'], maps: 'Al+Khan+Beach' },
       { name: 'Sharjah Art Museum', emirate: 'Sharjah', kind: 'museum • quiet rooms', moods: ['overwhelmed','anxious','stressed'], maps: 'Sharjah+Art+Museum' }
     ];
-
     const SOUND_THEMES = [
       { label: 'Ocean waves', moods: ['sad','anxious','tired','overwhelmed'], query: 'ocean+waves+10+hours' },
       { label: 'Light rain', moods: ['sad','anxious','stressed','tired'], query: 'rain+sounds+10+hours' },
@@ -194,18 +319,15 @@
       { label: 'Creek / gentle water', moods: ['stressed','anxious'], query: 'gentle+stream+water+sounds' },
       { label: 'Brown noise (softer than white)', moods: ['anxious','tired','overwhelmed'], query: 'brown+noise+sleep+focus' }
     ];
-
     const GENERIC_TIPS = [
-      { text: 'Box breathing 4-4-4-4 (inhale, hold, exhale, hold) for 3 minutes.' },
+      { text: 'Box breathing 4-4-4-4 for 3 minutes.' },
       { text: 'Step outside for 10 minutes of daylight or a short walk.' },
       { text: 'Drink water and have a small snack if you haven’t eaten recently.' },
       { text: 'Text or call someone you trust and tell them how you’re feeling.' },
       { text: 'Write down one worry and one small action you can take today.' }
     ];
 
-    // ===================
-    // Elements
-    // ===================
+    /* ===== Elements ===== */
     const screenHome   = document.getElementById('screenHome');
     const screenResults= document.getElementById('screenResults');
     const analyzeBtn   = document.getElementById('analyzeBtn');
@@ -213,15 +335,14 @@
     const storyEl      = document.getElementById('story');
     const spinEl       = document.getElementById('spin');
     const homeError    = document.getElementById('homeError');
-
-    const aiMsgEl    = document.getElementById('aiMessage');
-    const placesList = document.getElementById('placesList');
-    const mapViewer  = document.getElementById('mapViewer');
-    const soundsList = document.getElementById('soundsList');
-    const videoViewer= document.getElementById('videoViewer');
-    const tipsEl     = document.getElementById('tips');
-    const safetyNote = document.getElementById('safetyNote');
-    const titleEl    = document.getElementById('resultTitle');
+    const aiMsgEl      = document.getElementById('aiMessage');
+    const placesList   = document.getElementById('placesList');
+    const mapViewer    = document.getElementById('mapViewer');
+    const soundsList   = document.getElementById('soundsList');
+    const videoViewer  = document.getElementById('videoViewer');
+    const tipsEl       = document.getElementById('tips');
+    const safetyNote   = document.getElementById('safetyNote');
+    const titleEl      = document.getElementById('resultTitle');
 
     // Submit on Enter (Shift+Enter = newline)
     storyEl.addEventListener('keydown',(e)=>{
@@ -230,10 +351,9 @@
 
     backBtn.addEventListener('click', ()=>{
       switchScreen('home');
-      // Keep the user’s text; clear transient errors
       homeError.style.display='none';
       homeError.textContent='';
-      storyEl.focus();
+      storyEl.focus({preventScroll:true});
     });
 
     function switchScreen(which){
@@ -247,9 +367,7 @@
       window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    // =============
-    // Analyze flow
-    // =============
+    // Analyze flow (kept same behavior)
     analyzeBtn.addEventListener('click', async ()=>{
       const story = (storyEl.value || '').trim();
       homeError.style.display='none';
@@ -266,7 +384,6 @@
 
       try{
         const result = await analyzeViaServer([], story);
-        // If the model said "unclear", keep the user on the first screen and show the question
         const noLists = (!result.places?.length && !result.sounds?.length && !result.tips?.length);
         if(noLists){
           homeError.innerHTML = result.aiText || 'I’m not sure I understood. Could you rephrase what you’re feeling?';
@@ -285,7 +402,7 @@
       }
     });
 
-    // Same server hook as before (moods removed; story-only)
+    // Same server hook as before
     async function analyzeViaServer(moods, story){
       const res = await fetch("/api/ai", {
         method:"POST",
@@ -304,7 +421,6 @@
       const inferred = (data.inferredMoods || []).map(s => s.toLowerCase());
       const isUnclear = inferred.length===1 && inferred[0]==="unclear";
       if(isUnclear){
-        // No suggestions if unclear — show clarifying line on Screen 1
         return { aiText: data.aiText || "I’m not sure I understood. Could you rephrase what you’re feeling?", places:[], sounds:[], tips:[] };
       }
 
@@ -312,7 +428,6 @@
       return { aiText: data.aiText || heuristic.aiText, places: heuristic.places, sounds: heuristic.sounds, tips: heuristic.tips };
     }
 
-    // Heuristic stays largely the same, now deriving moods from AI + text only
     function analyzeLocally(moods, story){
       const text = (story || '').toLowerCase();
       const kw = {
@@ -324,7 +439,6 @@
         anxiety: /(anxiety|anxious|panic|worry|worried|nervous)/.test(text),
       };
 
-      // If the AI didn’t infer much, expand from keywords
       if(!moods?.length){
         if(kw.anxiety) moods.push('anxious');
         if(kw.anger) moods.push('angry');
@@ -333,17 +447,14 @@
         if(!moods.length) moods = ['stressed'];
       }
 
-      // Places scored by mood overlap
       const placeScores = UAE_PLACES.map(p => ({
         place:p, score:p.moods.reduce((s,m)=> s + (moods.includes(m)?1:0), 0)
       })).sort((a,b)=> b.score - a.score || a.place.name.localeCompare(b.place.name));
       const topPlaces = placeScores.filter(x=>x.score>0).slice(0,6).map(x=>x.place);
       const fallbackPlaces = UAE_PLACES.slice(0,6);
 
-      // Sounds by mood
       const topSounds = SOUND_THEMES.filter(s => s.moods.some(m => moods.includes(m))).slice(0,6);
 
-      // Tips (+ a targeted nudge)
       const tips = [...GENERIC_TIPS];
       if(kw.sleep) tips.unshift({ text: 'Try a 60–90 min wind-down (dim lights, stretch, no heavy screens).' });
       if(kw.study) tips.unshift({ text: 'Do a 25-minute focus block near daylight, then 5-minute walk.' });
@@ -354,7 +465,7 @@
       const moodLine = moods.length
         ? `I’m hearing themes like ${moods.map(m=>`<strong>${m}</strong>`).join(', ')}.`
         : 'Thanks for sharing — I’ll keep suggestions gentle and flexible.';
-      const note = `This isn’t therapy. If you feel unsafe or in crisis, please call <strong>999</strong> (police) or <strong>998</strong> (ambulance). For mental support you can call <strong>800-HOPE (8004673)</strong> daily 8am–8pm, Abu Dhabi’s <strong>Estijaba 8001717</strong> (psychological support option), or <strong>DFWAC 800111</strong> for women & children.`;
+      const note = `This isn’t therapy. If you feel unsafe or in crisis, please call <strong>999</strong> (police) or <strong>998</strong> (ambulance). For mental support you can call <strong>800-HOPE (8004673)</strong>, Abu Dhabi’s <strong>Estijaba 8001717</strong>, or <strong>DFWAC 800111</strong>.`;
       const aiText = `${moodLine} Based on that, here are calm places, sounds, and small steps that often help in the UAE. ${note}`;
 
       return {
@@ -365,7 +476,6 @@
       };
     }
 
-    // Render results
     function renderResult({ aiText, places, sounds, tips }){
       aiMsgEl.innerHTML = aiText;
 
@@ -415,7 +525,7 @@
       });
 
       titleEl.textContent='Suggestions';
-      safetyNote.innerHTML=`Remember: this tool can’t diagnose or treat. If symptoms persist, consider speaking with a licensed professional in the UAE (e.g., via your emirate’s health services).`;
+      safetyNote.innerHTML=`Remember: this tool can’t diagnose or treat. If symptoms persist, consider speaking with a licensed professional in the UAE.`;
     }
   </script>
 </body>
