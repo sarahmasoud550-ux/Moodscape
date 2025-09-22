@@ -75,6 +75,7 @@
       box-shadow:var(--shadow);
       padding:22px;
       animation: fadeIn .35s ease both;
+      margin: 18px;
     }
     .card h1,.card h2{margin:.2rem 0 .6rem;text-align:center}
     .help,.footnote{color:var(--muted);text-align:center}
@@ -88,6 +89,7 @@
       padding:18px;
       display:grid;gap:12px;justify-items:center;
       text-align:center;
+      margin: 18px;
     }
     .phones{
       display:grid;gap:10px;width:100%;
@@ -113,6 +115,7 @@
       border:1px solid var(--border);
       border-radius:14px; resize:vertical; outline: none;
       transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+      color: whitesmoke;
     }
     @media (prefers-color-scheme: dark){
       .textarea{background:rgba(255,255,255,.04)}
@@ -149,7 +152,7 @@
 
     /* ========= SCREEN SWITCH (smooth) ========= */
     .screens{display:grid;justify-items:center}
-    .screen{width:100%; display:none; opacity:0; transform: translateY(8px)}
+    .screen{width:100%; display:none; opacity:0; transform: translateY(8px);justify-items:center}
     .screen.active{display:block; animation: pageIn .35s ease both}
     .fade-area{animation: fadeIn .35s ease both}
 
