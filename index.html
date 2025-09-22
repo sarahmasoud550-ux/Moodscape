@@ -126,11 +126,15 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
         <div class="brand">UAE Moodscape <small>— calm, places, and sounds</small></div>
         <div class="help">Choose how you want to start. You can select feelings, write to the AI agent, or do both.</div>
       </div>
-      <div class="row">
-        <button id="analyzeBtn" class="btn"><span class="lbl">Analyze & Suggest</span> <span id="spin" class="spinner" style="display:none"></span></button>
-        <button id="resetBtn" class="btn secondary">Reset</button>
-      </div>
     </header>
+    <!-- Actions under feelings + text -->
+    <div class="row actions" style="margin: 8px 0 18px">
+      <button id="analyzeBtn" class="btn">
+        <span class="lbl">Analyze & Suggest</span>
+        <span id="spin" class="spinner" style="display:none"></span>
+      </button>
+      <button id="resetBtn" class="btn secondary">Reset</button>
+    </div>
 
     <div class="grid">
       <section class="card" aria-labelledby="feelings-title">
@@ -247,6 +251,15 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
     const tipsEl     = document.getElementById('tips');
     const spinEl     = document.getElementById('spin');
     const safetyNote = document.getElementById('safetyNote');
+
+    // Press Enter to analyze; Shift+Enter still makes a newline
+    storyEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        analyzeBtn.click();
+      }
+    });
+
 
     resetBtn.addEventListener('click', () => {
       storyEl.value = '';
