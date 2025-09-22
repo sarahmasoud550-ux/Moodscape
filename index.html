@@ -156,7 +156,7 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
     </div>
 
     <section id="results" class="card" aria-live="polite" aria-busy="false">
-      <h2>Suggestions</h2>
+      <h2 id="resultTitle">Suggestions</h2>
       <div id="aiMessage" class="help"></div>
 
       <div class="section-title">Places you could visit</div>
@@ -384,7 +384,13 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
       aiMsgEl.innerHTML = aiText;
 
       // If unclear: invite the user to clarify and skip the lists
-      if ((!places || places.length === 0) && (!sounds || sounds.length === 0) && (!tips || tips.length === 0)) {
+      const titleEl = document.getElementById('resultTitle');
+      const isUnclear = ((!places || places.length === 0) &&
+                        (!sounds || sounds.length === 0) &&
+                        (!tips   || tips.length   === 0));
+
+      if (isUnclear) {
+        titleEl.textContent = 'Clarification needed';
         placesList.innerHTML = '';
         soundsList.innerHTML = '';
         tipsEl.innerHTML = '';
@@ -397,9 +403,10 @@ details[open] > summary { border-bottom: 1px solid rgba(255,255,255,.08); margin
         hint.textContent = 'Please add a bit more detail (e.g., is it sleep, studies, relationships, or work?).';
         aiMsgEl.appendChild(hint);
 
-        // put the cursor back so they can type again
         storyEl.focus();
-        return;
+        return; // ⬅️ important: don’t render empty sections
+      } else {
+        titleEl.textContent = 'Suggestions';
       }
 
       // (existing rendering for normal case)

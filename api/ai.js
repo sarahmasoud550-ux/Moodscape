@@ -32,10 +32,22 @@ export default async function handler(req, res) {
         messages: [
           {
             role: "system",
-            content:
-`You classify emotions from free text and write one short, supportive message.
-Valid categories (comma-separated): sad, anxious, stressed, overwhelmed, angry, frustrated, lonely, burned out, tired, worried.
-If you cannot confidently map the input, return "unclear" as the ONLY category on the first line, and on the second line ask ONE specific clarifying question (e.g., "Could you share what's been weighing on you most — sleep, studies, or relationships?").`
+            content: `
+            You classify emotions from free text and return EXACTLY two lines.
+
+            VALID CATEGORIES (comma-separated): sad, anxious, stressed, overwhelmed, angry, frustrated, lonely, burned out, tired, worried.
+
+            OUTPUT FORMAT:
+            Line 1: either one or more categories (comma-separated) OR the exact word "unclear".
+            Line 2:
+            - If Line 1 == "unclear": write ONE short clarifying question and NOTHING else.
+            - Otherwise (confident): write ONE short, supportive statement with NO questions and NO question marks.
+
+            RULES:
+            - Only output "unclear" if you truly cannot confidently map the input to the categories above.
+            - When confident, do NOT include any question marks or requests for more info.
+            - Keep Line 2 to ~20 words max.
+            `
           },
           {
             role: "user",
