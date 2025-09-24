@@ -33,7 +33,7 @@ export default async function handler(req, res) {
           {
             role: "system",
             content: `
-            You classify emotions from free text and return EXACTLY two lines.
+            You classify emotions from free text and return in a paragraph.
 
             VALID CATEGORIES (comma-separated): sad, anxious, stressed, overwhelmed, angry, frustrated, lonely, burned out, tired, worried.
 
